@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}5S Ideal!{% endblock %}</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/plugins/fontawesome-free/css/all.min.css')}} ">
+    {% block stylesheets %}{% endblock %}
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/dist/css/adminlte.min.css') }}">
+</head>
+<body class="hold-transition">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    {% include 'admin/contents/navbar.html.twig' %}
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a href="{{ path('app_admin_dashboard') }}" class="brand-link">
+            <span class="brand-text font-weight-light">5S <b>Ideal</b></span>
+        </a>
+        {% include 'admin/contents/sidebar.html.twig' %}
+    </aside>
+
+    {% block body %}{% endblock %}
+
+    {% include 'admin/contents/footer.html.twig' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="{{ asset('assets/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('assets/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

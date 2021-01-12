@@ -1,0 +1,41 @@
+{% set route = app.request.attributes.get('_route') %}
+{% set parent_route = route|split('_') %}
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="{{ path('home') }}" class="nav-link {% if route == 'home' %}active{% endif %}">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li class="nav-item {% if parent_route[0] == 'user' %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if parent_route[0] == 'user' %}active{% endif %}">
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Users
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+{#                <ul class="nav nav-treeview">#}
+{#                    <li class="nav-item">#}
+{#                        <a href="{{ path('user_list') }}" class="nav-link {% if route == 'user_list' %}active{% endif %}">#}
+{#                            <i class="fa fa-list nav-icon"></i>#}
+{#                            <p>All users</p>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="{{ path('user_create') }}" class="nav-link {% if route == 'user_create' %}active{% endif %}">#}
+{#                            <i class="fa fa-plus nav-icon"></i>#}
+{#                            <p>Create a new user</p>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                </ul>#}
+            </li>
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->

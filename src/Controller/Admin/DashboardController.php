@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin", name="app_admin_")
+ * @Route("/admin", name="app_admin")
  */
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/", name="dashboard")
+     * @Route("/", name="_dashboard")
      */
     public function index(): Response
     {
