@@ -29,7 +29,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setEmail("berkay@rentcar.com")
             ->setPassword($this->passwordEncoder->encodePassword($user, '12345678'))
-            ->setRoles(["ROLE_SUPER_USER"])
+            ->setRoles(["ROLE_SUPER_ADMIN"])
             ->setCreatedAt(new DateTime());
 
         $manager->persist($user);
