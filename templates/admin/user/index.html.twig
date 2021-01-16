@@ -43,6 +43,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Full name</th>
                                     <th>Username</th>
                                     <th>Role</th>
                                     <th>Created at</th>
@@ -54,6 +55,7 @@
                             {% for user in users %}
                                 <tr>
                                     <td>{{ user.id }}</td>
+                                    <td>{{ user.name }} {{ user.surname }}</td>
                                     <td>{{ user.username }}</td>
                                     <td>{{ user.roles[0] }}</td>
                                     <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
