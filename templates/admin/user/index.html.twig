@@ -61,7 +61,9 @@
                                         <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
                                     </td>
                                     <td>
-                                        {% include 'admin/user/_delete_form.html.twig' %}
+                                        {% if app.user.id != user.id %}
+                                            {% include 'admin/user/_delete_form.html.twig' %}
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
