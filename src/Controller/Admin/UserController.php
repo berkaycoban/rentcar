@@ -47,7 +47,7 @@ class UserController
     }
 
     /**
-     * @route("/create/{id}", name="create", defaults={"id": null})
+     * @Route("/create/{id}", name="create", defaults={"id": null})
      * @param FormFactoryInterface $formFactory
      * @param Request $request
      * @param EntityManagerInterface $em
