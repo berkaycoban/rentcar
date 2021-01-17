@@ -49,6 +49,12 @@ class User implements UserInterface
      */
     private $surname;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $company;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,6 +165,18 @@ class User implements UserInterface
     public function setSurname(?string $surname): self
     {
         $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }

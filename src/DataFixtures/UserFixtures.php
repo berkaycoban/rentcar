@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -26,14 +27,23 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+        $company = new Company();
+        $company->setName("RentCar AS")
+            ->setAddress("Torbali")
+            ->setCity("IZMIR")
+            ->setEmail("info@rentcar.com")
+            ->setCreatedAt(new DateTime());
+
         $user = new User();
         $user->setEmail("berkay@rentcar.com")
             ->setName("Berkay")
             ->setSurname("Coban")
             ->setPassword($this->passwordEncoder->encodePassword($user, '12345678'))
             ->setRoles(["ROLE_SUPER_ADMIN"])
+            ->setCompany($company)
             ->setCreatedAt(new DateTime());
 
+        $manager->persist($company);
         $manager->persist($user);
         $manager->flush();
     }

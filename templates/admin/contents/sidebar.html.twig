@@ -21,15 +21,38 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ path('app_admin_user_list') }}" class="nav-link {% if parent_route[3] is defined and parent_route[3] == 'list' %}active{% endif %}">
+                        <a href="{{ path('app_admin_user_list') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'user' and parent_route[3] == 'list' %}active{% endif %}">
                             <i class="fa fa-list nav-icon"></i>
                             <p>All users</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ path('app_admin_user_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[3] == 'create' %}active{% endif %}">
+                        <a href="{{ path('app_admin_user_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'user' and parent_route[3] == 'create' %}active{% endif %}">
                             <i class="fa fa-plus nav-icon"></i>
                             <p>Create a new user</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item {% if parent_route[2] == 'company' %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if parent_route[2] == 'company' %}active{% endif %}">
+                    <i class="nav-icon fas fa-building"></i>
+                    <p>
+                        Company
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_company_list') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'company' and parent_route[3] == 'list' %}active{% endif %}">
+                            <i class="fa fa-list nav-icon"></i>
+                            <p>All companies</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_company_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'company' and parent_route[3] == 'create' %}active{% endif %}">
+                            <i class="fa fa-plus nav-icon"></i>
+                            <p>Create a new company</p>
                         </a>
                     </li>
                 </ul>
