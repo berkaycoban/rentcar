@@ -39,10 +39,19 @@ class UserFixtures extends Fixture
             ->setName("Berkay")
             ->setSurname("Coban")
             ->setPassword($this->passwordEncoder->encodePassword($user, '12345678'))
-            ->setRoles(["ROLE_SUPER_ADMIN"])
+            ->setRoles(["ROLE_ADMIN", "ROLE_SUPER_ADMIN"])
             ->setCompany($company)
             ->setCreatedAt(new DateTime());
 
+        $customer = new User();
+        $customer->setEmail("customer@a.com")
+            ->setName("John")
+            ->setSurname("Doe")
+            ->setPassword($this->passwordEncoder->encodePassword($customer, '12345678'))
+            ->setCompany(null)
+            ->setCreatedAt(new DateTime());
+
+        $manager->persist($customer);
         $manager->persist($company);
         $manager->persist($user);
         $manager->flush();

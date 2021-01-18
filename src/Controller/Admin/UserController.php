@@ -80,6 +80,8 @@ class UserController
                 );
             }
 
+            $user->setRoles(['ROLE_ADMIN']);
+
             if ($form->get('role')->getData()) {
                 $user->setRoles(['ROLE_SUPER_ADMIN']);
             }
