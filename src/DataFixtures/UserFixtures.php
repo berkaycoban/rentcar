@@ -32,7 +32,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             ->setName("Berkay")
             ->setSurname("Coban")
             ->setPassword($this->passwordEncoder->encodePassword($user, '12345678'))
-            ->setRoles(["ROLE_ADMIN", "ROLE_SUPER_ADMIN"])
+            ->setRoles(["ROLE_SUPER_ADMIN"])
             ->setCompany($this->getReference(CompanyFixtures::REFERANCE_NAME))
             ->setCreatedAt(new DateTime());
 
