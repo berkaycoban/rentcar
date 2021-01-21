@@ -108,11 +108,12 @@ class CarController
      * @param $id
      * @return Response
      */
-    public function delete(EntityManagerInterface $em, CarRepository $repository, $id) : Response
+    public function delete(EntityManagerInterface $em, CarRepository $repository, FileUploader $fileUploader, $id) : Response
     {
         $car = $repository->find($id);
 
         if ($car) {
+            $fileUploader->remove($car->getImgSrc());
             $em->remove($car);
             $em->flush();
 

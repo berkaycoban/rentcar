@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -10,13 +11,25 @@ class FileUploader
 {
     private $targetDirectory;
     private $slugger;
+    private $fileSystem;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    /**
+     * FileUploader constructor.
+     * @param $targetDirectory
+     * @param SluggerInterface $slugger
+     * @param Filesystem $fileSystem
+     */
+    public function __construct($targetDirectory, SluggerInterface $slugger, Filesystem $fileSystem)
     {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
+        $this->fileSystem = $fileSystem;
     }
 
+    /**
+     * @param UploadedFile $file
+     * @return string
+     */
     public function upload(UploadedFile $file): string
     {
         $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -32,8 +45,19 @@ class FileUploader
         return $fileName;
     }
 
-    public function getTargetDirectory()
+    /**
+     * @return string
+     */
+    public function getTargetDirectory(): string
     {
         return $this->targetDirectory;
+    }
+
+    /**
+     * @param string $fileName
+     */
+    public function remove(string $fileName): void
+    {
+        $this->fileSystem->remove($this->targetDirectory.'/'.$fileName);
     }
 }
