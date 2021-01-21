@@ -1,4 +1,4 @@
-PROJECT_NAME := "5S Ideal ERP System"
+PROJECT_NAME := "RentCar"
 
 start: 
 	php -S 127.0.0.1:8000 -t ./public
