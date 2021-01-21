@@ -6,7 +6,7 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-                <a href="{{ path('app_admin_dashboard') }}" class="nav-link {% if route == 'dashboard' %}active{% endif %}">
+                <a href="{{ path('app_admin_dashboard') }}" class="nav-link {% if parent_route[2] == 'dashboard' %}active{% endif %}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>Dashboard</p>
                 </a>
@@ -53,6 +53,29 @@
                         <a href="{{ path('app_admin_company_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'company' and parent_route[3] == 'create' %}active{% endif %}">
                             <i class="fa fa-plus nav-icon"></i>
                             <p>Create a new company</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item {% if parent_route[2] == 'car' %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if parent_route[2] == 'car' %}active{% endif %}">
+                    <i class="nav-icon fas fa-car"></i>
+                    <p>
+                        Cars
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_car_list') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'car' and parent_route[3] == 'list' %}active{% endif %}">
+                            <i class="fa fa-list nav-icon"></i>
+                            <p>All cars</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_car_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'car' and parent_route[3] == 'create' %}active{% endif %}">
+                            <i class="fa fa-plus nav-icon"></i>
+                            <p>Buy a new car</p>
                         </a>
                     </li>
                 </ul>

@@ -1,0 +1,179 @@
+{% extends 'admin/base.html.twig' %}
+
+{% if(app.request.get('id')) %}
+    {% set title = "Update a Car" %}
+{% else %}
+    {% set title = "Buy a new Car" %}
+{% endif %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            {{ title }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('app_admin_dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_admin_car_list') }}">Cars</a></li>
+                            <li class="breadcrumb-item active">{{ title }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Buy a new Car</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {{ form_start(form) }}
+                    <div class="card-body">
+                        <div class="col-md-12 row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="brand">{{ form_label(form.brand) }}</label>
+                                    {{ form_widget(form.brand, {'attr': {'class': 'form-control', 'id': 'brand'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="model">{{ form_label(form.model) }}</label>
+                                    {{ form_widget(form.model, {'attr': {'class': 'form-control', 'id': 'model'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="year">{{ form_label(form.year) }}</label>
+                                    {{ form_widget(form.year, {'attr': {'class': 'form-control', 'id': 'year'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fuel">{{ form_label(form.fuel) }}</label>
+                                    {{ form_widget(form.fuel, {'attr': {'class': 'form-control', 'id': 'fuel'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="gear">{{ form_label(form.gear) }}</label>
+                                    {{ form_widget(form.gear, {'attr': {'class': 'form-control', 'id': 'gear'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="class">{{ form_label(form.class) }}</label>
+                                    {{ form_widget(form.class, {'attr': {'class': 'form-control', 'id': 'class'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="luggage_volume">{{ form_label(form.luggage_volume) }}</label>
+                                    {{ form_widget(form.luggage_volume, {'attr': {'class': 'form-control', 'id': 'luggage_volume'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="seats">{{ form_label(form.seats) }}</label>
+                                    {{ form_widget(form.seats, {'attr': {'class': 'form-control', 'id': 'seats'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 row align-items-center justify-content-center">
+                                <div class="form-group mb-0 row">
+                                    <div class="form-check">
+                                        {{ form_widget(form.air_conditioning, {'attr': {'class': 'form-check-input', 'id': 'air_conditioning'}}) }}
+                                        <label for="air_conditioning" class="form-check-label">{{ form_label(form.air_conditioning) }}</label>
+                                    </div>
+                                    <div class="form-check ml-5">
+                                        {{ form_widget(form.airbag, {'attr': {'class': 'form-check-input', 'id': 'airbag'}}) }}
+                                        <label for="airbag" class="form-check-label">{{ form_label(form.airbag) }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="min_license_year">{{ form_label(form.min_license_year) }}</label>
+                                    {{ form_widget(form.min_license_year, {'attr': {'class': 'form-control', 'id': 'min_license_year'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="min_driver_age">{{ form_label(form.min_driver_age) }}</label>
+                                    {{ form_widget(form.min_driver_age, {'attr': {'class': 'form-control', 'id': 'min_driver_age'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="km">{{ form_label(form.km) }}</label>
+                                    {{ form_widget(form.km, {'attr': {'class': 'form-control', 'id': 'km'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="daily_max_km">{{ form_label(form.daily_max_km) }}</label>
+                                    {{ form_widget(form.daily_max_km, {'attr': {'class': 'form-control', 'id': 'daily_max_km'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="daily_price">{{ form_label(form.daily_price) }}</label>
+                                    {{ form_widget(form.daily_price, {'attr': {'class': 'form-control', 'id': 'daily_price'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="owner_id">{{ form_label(form.owner_id) }}</label>
+                                    {{ form_widget(form.owner_id, {'attr': {'class': 'form-control', 'id': 'owner_id'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="image">{{ form_label(form.image, 'Car Image') }}</label>
+                                    <div class="input-group">
+                                        {{ form_widget(form.image, {'attr': {'class': '', 'id': 'image'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="img_alt">{{ form_label(form.img_alt, 'SEO: Image Alt') }}</label>
+                                {{ form_widget(form.img_alt, {'attr': {'class': 'form-control', 'id': 'img_alt'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary float-right'}}) }}
+                    </div>
+                    <!-- /.card-footer -->
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.card -->
+            </div>
+        </section>
+    </div>
+{% endblock %}

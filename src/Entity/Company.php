@@ -54,9 +54,15 @@ class Company
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Car::class, mappedBy="owner_id")
+     */
+    private $cars;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +175,35 @@ class Company
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Car[]
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setOwnerId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->removeElement($car)) {
+            // set the owning side to null (unless already changed)
+            if ($car->getOwnerId() === $this) {
+                $car->setOwnerId(null);
+            }
+        }
+
+        return $this;
     }
 }
