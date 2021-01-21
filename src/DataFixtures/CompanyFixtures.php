@@ -9,21 +9,36 @@ use Doctrine\Persistence\ObjectManager;
 
 class CompanyFixtures extends Fixture
 {
-    public const REFERANCE_NAME = "company";
+    public const REFERENCE_NAME = 'company';
+    public const REFERENCE_NAME_1 = 'company1';
+    public const REFERENCE_NAME_2 = 'company2';
+    public const REFERENCE_NAME_3 = 'company3';
 
     public function load(ObjectManager $manager)
     {
-        $company = new Company();
+        foreach ($this->getCompanyData() as [$name, $address, $city, $email, $reference_name]) {
+            $company = new Company();
+            $company->setName($name)
+                ->setAddress($address)
+                ->setCity($city)
+                ->setEmail($email)
+                ->setCreatedAt(new DateTime());
 
-        $company->setName("RentCar AS")
-            ->setAddress("Torbali")
-            ->setCity("IZMIR")
-            ->setEmail("info@rentcar.com")
-            ->setCreatedAt(new DateTime());
+            $this->addReference((string)$reference_name, $company);
+            $manager->persist($company);
+        }
 
-        $manager->persist($company);
         $manager->flush();
+    }
 
-        $this->addReference(self::REFERANCE_NAME, $company);
+    private function getCompanyData(): array
+    {
+        return [
+            // $companyData = [$name, $address, $city, $email, $reference_name];
+            ['RentCar AS', 'Torbali', 'IZMIR', 'info@rentcar.com', self::REFERENCE_NAME],
+            ['Vera AS', 'Alsancak', 'IZMIR', 'info@vera.com', self::REFERENCE_NAME_1],
+            ['Moonaly Rent a Car', 'Konyaalti', 'ANTALYA', 'info@moonaly.com', self::REFERENCE_NAME_2],
+            ['S-Tour', 'Beylikduzu', 'ISTANBUL', 'info@stour.com', self::REFERENCE_NAME_3],
+        ];
     }
 }

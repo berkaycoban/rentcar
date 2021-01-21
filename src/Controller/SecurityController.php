@@ -20,7 +20,7 @@ class SecurityController extends AbstractController
     public function login(Security $security, AuthenticationUtils $authenticationUtils): Response
     {
         // if user is already logged in, don't display the login page again
-        if ($security->isGranted('ROLE_ADMIN')) {
+        if ($security->isGranted('ROLE_ADMIN') || $security->isGranted('ROLE_SUPER_ADMIN')) {
             return $this->redirectToRoute('app_admin_dashboard');
         } else if ($security->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('home');

@@ -27,16 +27,20 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setEmail("berkay@rentcar.com")
-            ->setName("Berkay")
-            ->setSurname("Coban")
-            ->setPassword($this->passwordEncoder->encodePassword($user, '12345678'))
-            ->setRoles(["ROLE_SUPER_ADMIN"])
-            ->setCompany($this->getReference(CompanyFixtures::REFERANCE_NAME))
-            ->setCreatedAt(new DateTime());
+        foreach ($this->getUserData() as [$fullName, $email, $password, $company, $roles]) {
+            $admin = new User();
+            $admin->setFullName($fullName)
+                ->setEmail($email)
+                ->setPassword($this->passwordEncoder->encodePassword(
+                    $admin, $password
+                ))
+                ->setRoles($roles)
+                ->setCompany($company)
+                ->setCreatedAt(new DateTime());
 
-        $manager->persist($user);
+            $manager->persist($admin);
+        }
+
         $manager->flush();
     }
 
@@ -45,5 +49,17 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         return array(
             CompanyFixtures::class,
         );
+    }
+
+    private function getUserData(): array
+    {
+        return [
+            // $userData = [$fullName, $email, $password, $company, $roles];
+            ['Berkay Coban', 'berkay@rentcar.com', '12345678', $this->getReference(CompanyFixtures::REFERENCE_NAME), ['ROLE_SUPER_ADMIN']],
+            ['Aytur Ates', 'aytur@rentcar.com', '12345678', $this->getReference(CompanyFixtures::REFERENCE_NAME_1), ['ROLE_ADMIN']],
+            ['Berkant Senol', 'berkant@rentcar.com', '12345678', $this->getReference(CompanyFixtures::REFERENCE_NAME_2), ['ROLE_ADMIN']],
+            ['Kamil Ayyildiz', 'kamil@rentcar.com', '12345678', $this->getReference(CompanyFixtures::REFERENCE_NAME_3), ['ROLE_ADMIN']],
+            ['Gizem Ayyildiz', 'gizem@rentcar.com', '12345678', $this->getReference(CompanyFixtures::REFERENCE_NAME), ['ROLE_ADMIN']],
+        ];
     }
 }

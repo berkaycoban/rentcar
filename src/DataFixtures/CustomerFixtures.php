@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class CustomerFixtures extends Fixture
 {
@@ -23,15 +24,33 @@ class CustomerFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $customer = new User();
-        $customer->setEmail("customer@a.com")
-            ->setName("John")
-            ->setSurname("Doe")
-            ->setPassword($this->passwordEncoder->encodePassword($customer, '12345678'))
-            ->setCompany(null)
-            ->setCreatedAt(new DateTime());
+        foreach ($this->getUserData() as [$fullName, $email, $password, $company, $roles]) {
+            $customer = new User();
+            $customer->setFullName($fullName)
+                ->setEmail($email)
+                ->setPassword($this->passwordEncoder->encodePassword(
+                    $customer, $password
+                ))
+                ->setRoles($roles)
+                ->setCompany($company)
+                ->setCreatedAt(new DateTime());
 
-        $manager->persist($customer);
+            $manager->persist($customer);
+        }
+
         $manager->flush();
+    }
+
+    private function getUserData(): array
+    {
+        return [
+            // $userData = [$fullName, $email, $password, $company, $roles];
+            ['John Smith', 'user@a.com', '12345678', null, ['ROLE_USER']],
+            ['Rhonda Jordan', 'user1@a.com', '12345678', null, ['ROLE_USER']],
+            ['John Doe', 'user2@a.com', '12345678', null, ['ROLE_USER']],
+            ['Aytur Doe', 'user3@a.com', '12345678', null, ['ROLE_USER']],
+            ['Doge Coin', 'user4@a.com', '12345678', null, ['ROLE_USER']],
+            ['Holo bar', 'user5@a.com', '12345678', null, ['ROLE_USER']],
+        ];
     }
 }

@@ -42,12 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $surname;
+    private $full_name;
 
     /**
      * @ORM\ManyToOne(targetEntity=Company::class, inversedBy="users")
@@ -147,26 +142,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getName(): ?string
+    public function getFullName(): ?string
     {
-        return $this->name;
+        return $this->full_name;
     }
 
-    public function setName(string $name): self
+    public function setFullName(string $full_name): self
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function setSurname(?string $surname): self
-    {
-        $this->surname = $surname;
+        $this->full_name = $full_name;
 
         return $this;
     }

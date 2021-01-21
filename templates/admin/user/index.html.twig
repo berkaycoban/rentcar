@@ -37,6 +37,7 @@
                     {% endfor %}
                 </div>
 
+
                 <div class="card">
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-nowrap">
@@ -51,22 +52,42 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            {% set role = app.user.roles[1] ?? app.user.roles[0] %}
+                            {% set company = app.user.company.id %}
+
                             {% for user in users %}
-                                {% if user.roles[0] != "ROLE_USER" %}
-                                <tr>
-                                    <td>{{ user.name }} {{ user.surname }}</td>
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.roles[0] }}</td>
-                                    <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
-                                    <td>
-                                        <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
-                                    </td>
-                                    <td>
-                                        {% if app.user.id != user.id %}
-                                            {% include 'admin/user/_delete_form.html.twig' %}
-                                        {% endif %}
-                                    </td>
-                                </tr>
+                                {% if user.roles[0] != 'ROLE_USER' %}
+                                    {% if role == 'ROLE_SUPER_ADMIN' %}
+                                        <tr>
+                                            <td>{{ user.fullName }}</td>
+                                            <td>{{ user.username }}</td>
+                                            <td>{{ user.roles[0] }}</td>
+                                            <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
+                                            <td>
+                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                            </td>
+                                            <td>
+                                                {% if app.user.id != user.id %}
+                                                    {% include 'admin/user/_delete_form.html.twig' %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% elseif user.company.id == company %}
+                                        <tr>
+                                            <td>{{ user.fullName }}</td>
+                                            <td>{{ user.username }}</td>
+                                            <td>{{ user.roles[0] }}</td>
+                                            <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
+                                            <td>
+                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                            </td>
+                                            <td>
+                                                {% if app.user.id != user.id %}
+                                                    {% include 'admin/user/_delete_form.html.twig' %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endif %}
                             {% endfor %}
                             </tbody>
