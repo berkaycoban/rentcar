@@ -30,6 +30,20 @@ class CarRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function findAllAvailableCarsByCompany(int $company_id): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.owner_id = :val')
+            ->andWhere('c.available = :bool')
+            ->setParameter('val', $company_id)
+            ->setParameter('bool', true);
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
     // /**
     //  * @return Car[] Returns an array of Car objects
     //  */
