@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 /**
@@ -38,9 +39,17 @@ class CarController
      * @param CarRepository $repository
      * @return Response
      */
-    public function index(CarRepository $repository): Response
+    public function index(CarRepository $repository, Security $security): Response
     {
-        $cars = $repository->findAll();
+        $user = $security->getUser();
+
+        if($security->isGranted('ROLE_SUPER_ADMIN')){
+            $cars = $repository->findAll();
+        }else {
+            $company_id = $user->getCompany()->getId();
+            $cars = $repository->findAllCarsByCompany($company_id);
+        }
+
         $content = $this->twig->render('admin/car/index.html.twig', ['cars' => $cars]);
 
         return new Response($content);

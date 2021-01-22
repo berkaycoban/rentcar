@@ -55,49 +55,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% set role = app.user.roles[1] ?? app.user.roles[0] %}
-                                {% set company = app.user.company.id %}
-
                                 {% for car in cars %}
-                                    {% if role == 'ROLE_SUPER_ADMIN' %}
-                                    {# Show all cars #}
-                                        <tr>
-                                            <td>{{ car.brand }}</td>
-                                            <td>{{ car.model }}</td>
-                                            <td>{{ car.year }}</td>
-                                            <td>{{ car.fuel }}</td>
-                                            <td>{{ car.gear }}</td>
-                                            <td>{{ car.km }} km</td>
-                                            <td>{{ car.dailyPrice }} ₺</td>
-                                            <td>{{ car.dailyMaxKm }} km</td>
-                                            <td>{{ car.createdAt|date('d F Y') }}</td>
-                                            <td>
-                                                <a href="{{ path('app_admin_car_create', {id: car.id}) }}" class="btn btn-sm btn-info">Update</a>
-                                            </td>
-                                            <td>
-                                                {% include 'admin/car/_delete_form.html.twig' %}
-                                            </td>
-                                        </tr>
-                                    {% elseif car.ownerId.id == company %}
-                                    {# Show all cars that company has have #}
-                                        <tr>
-                                            <td>{{ car.brand }}</td>
-                                            <td>{{ car.model }}</td>
-                                            <td>{{ car.year }}</td>
-                                            <td>{{ car.fuel }}</td>
-                                            <td>{{ car.gear }}</td>
-                                            <td>{{ car.km }} km</td>
-                                            <td>{{ car.dailyPrice }} ₺</td>
-                                            <td>{{ car.dailyMaxKm }} km</td>
-                                            <td>{{ car.createdAt|date('d F Y') }}</td>
-                                            <td>
-                                                <a href="{{ path('app_admin_car_create', {id: car.id}) }}" class="btn btn-sm btn-info">Update</a>
-                                            </td>
-                                            <td>
-                                                {% include 'admin/car/_delete_form.html.twig' %}
-                                            </td>
-                                        </tr>
-                                    {% endif %}
+                                    <tr>
+                                        <td>{{ car.brand }}</td>
+                                        <td>{{ car.model }}</td>
+                                        <td>{{ car.year }}</td>
+                                        <td>{{ car.fuel }}</td>
+                                        <td>{{ car.gear }}</td>
+                                        <td>{{ car.km }} km</td>
+                                        <td>{{ car.dailyPrice }} ₺</td>
+                                        <td>{{ car.dailyMaxKm }} km</td>
+                                        <td>{{ car.createdAt|date('d F Y') }}</td>
+                                        <td>
+                                            <a href="{{ path('app_admin_car_create', {id: car.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                        </td>
+                                        <td>
+                                            {% include 'admin/car/_delete_form.html.twig' %}
+                                        </td>
+                                    </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
