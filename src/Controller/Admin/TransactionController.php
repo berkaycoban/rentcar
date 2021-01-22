@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Transaction;
 use App\Form\TransactionType;
 use App\Repository\TransactionRepository;
+use App\Service\TransactionService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -62,6 +64,7 @@ class TransactionController
         EntityManagerInterface $em,
         TransactionRepository $repository,
         Security $security,
+        TransactionService $service,
         $id = null
     ): Response
     {
@@ -79,14 +82,31 @@ class TransactionController
 
         if($form->isSubmitted() && $form->isValid()){
             $date = $form->get('reservationDate')->getData();
-            // tarig explode edilip
-            // ilk ve ikinci tarih bulunacak
-            // sonra gun hesaplanacak
-            // sonra fiyat, km hesaplanacak
 
-            // amount
-            // pickup km
-            // return km
+            $date = $service->parseDate($date);
+
+            $transaction->setPickupDate(new DateTime($date[0]));
+            $transaction->setReturnDate(new DateTime($date[1]));
+
+            $days = $service->dateDiff($date[0], $date[1]);
+            $daily_price = $transaction->getCarId()->getDailyPrice();
+            $daily_km = $transaction->getCarId()->getDailyMaxKm();
+
+            $transaction->setPickupCarKm($transaction->getCarId()->getKm());
+            $transaction->setAmount($service->calculateAmount($daily_price, $days));
+            $transaction->setReturnCarKm($service->calculateExpectedCarKM($daily_km, $days));
+
+            if (!$transaction->getId()) {
+                $transaction->setDate(new DateTime());
+                $this->flash->add('success', 'Created was successful.');
+            } else {
+                $this->flash->add('success', 'Updated was successful.');
+            }
+
+            $em->persist($transaction);
+            $em->flush();
+
+            return new RedirectResponse($this->router->generate('app_admin_transaction_list'));
         }
 
         $content = $this->twig->render('admin/transaction/create.html.twig', [

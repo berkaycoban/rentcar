@@ -101,9 +101,10 @@
         $(function () {
             $('#transaction_reservationDate').daterangepicker({
                 timePicker: true,
+                timePicker24Hour: true,
                 timePickerIncrement: 30,
                 locale: {
-                    format: 'MM/DD/YYYY hh:mm A'
+                    format: 'MM/DD/YYYY HH:mm'
                 }
             })
         })

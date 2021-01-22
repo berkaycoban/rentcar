@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Transaction;
+use App\Service\TransactionService;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -10,40 +11,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class TransactionFixtures extends Fixture implements DependentFixtureInterface
 {
-    /**
-     * Calculate days count from dates
-     * @param $date1
-     * @param $date2
-     * @return int
-     */
-    private function dateDiff($date1, $date2): int
-    {
-        $startTimeStamp = strtotime($date1);
-        $endTimeStamp = strtotime($date2);
+    private $transactionService;
 
-        $timeDiff = abs($endTimeStamp - $startTimeStamp);
-
-        $numberDays = $timeDiff/86400;  // 86400 seconds in one day
-
-        return intval($numberDays);
+    public function __construct(TransactionService $transaction){
+        $this->transactionService = $transaction;
     }
-
-    private function calculateAmount($daily_price, $days): float {
-        $amount = $daily_price * $days;
-        if($days >= 7){
-            $amount *= 0.95; // discount
-        }else if($days >= 30){
-            $amount *= 0.9; // discount
-        }else if($days >= 365) {
-            $amount *= 0.7; // discount
-        }
-        return $amount;
-    }
-
-    private function calculateExpectedCarKM($daily_max_km, $days): int {
-        return $daily_max_km * $days;
-    }
-
     public function load(ObjectManager $manager)
     {
         foreach ($this->getTransactionData() as [$car, $customer, $pickup_date, $return_date]) {
@@ -51,9 +23,9 @@ class TransactionFixtures extends Fixture implements DependentFixtureInterface
             $car = $this->getReference((string)$car);
             $customer = $this->getReference((string)$customer);
 
-            $days = $this->dateDiff($pickup_date, $return_date);
-            $amount = $this->calculateAmount($car->getDailyPrice(), $days);
-            $expectedCarKM = $this->calculateExpectedCarKM($car->getDailyMaxKm(), $days);
+            $days = $this->transactionService->dateDiff($pickup_date, $return_date);
+            $amount = $this->transactionService->calculateAmount($car->getDailyPrice(), $days);
+            $expectedCarKM = $this->transactionService->calculateExpectedCarKM($car->getDailyMaxKm(), $days);
 
             $transaction->setCarId($car)
                 ->setCustomerId($customer)
