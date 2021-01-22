@@ -404,4 +404,9 @@ class Car
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getBrand().' '.$this->getModel().' '.$this->getYear();
+    }
 }
