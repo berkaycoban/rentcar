@@ -1,0 +1,95 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6 page-title">
+                        <h1>All Transactions</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('app_admin_dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">All Transactions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <section class="content">
+            <div class="col-12">
+                <div class="box-body">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{label}} alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa fa-check"></i> Alert!</h4>
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                {% if transactions is not empty %}
+                <div class="card">
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Model</th>
+                                    <th>Pickup Date</th>
+                                    <th>Pickup KM</th>
+                                    <th>Expected Date</th>
+                                    <th>Expected KM</th>
+                                    <th>Amount</th>
+                                    <th>Company Name</th>
+                                    <th>Created at</th>
+                                    <th>##</th>
+                                    <th>##</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set role = app.user.roles[1] ?? app.user.roles[0] %}
+                                {% set company = app.user.company.id %}
+
+                                {% for item in transactions %}
+                                    <tr>
+                                        <td>{{ item.carId.brand }}</td>
+                                        <td>{{ item.carId.model }}</td>
+                                        <td>{{ item.pickupDate|date('d F Y') }}</td>
+                                        <td>{{ item.pickupCarKm }}</td>
+                                        <td>{{ item.returnDate|date('d F Y') }}</td>
+                                        <td>{{ item.returnCarKm }}</td>
+                                        <td>{{ item.amount }} ₺</td>
+                                        <td>{{ item.carId.ownerId.name }}</td>
+                                        <td>{{ item.date|date('d F Y') }}</td>
+{#                                        <td>#}
+{#                                            <a href="{{ path('app_admin_car_create', {id: car.id}) }}" class="btn btn-sm btn-info">Update</a>#}
+{#                                        </td>#}
+                                        <td>
+                                            {% include 'admin/transaction/_delete_form.html.twig' %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                {% else %}
+                    <div class="alert alert-warning alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4 class="mb-0">No Transactions!</h4>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+{% endblock %}
