@@ -80,6 +80,29 @@
                     </li>
                 </ul>
             </li>
+            <li class="nav-item {% if parent_route[2] == 'transaction' %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if parent_route[2] == 'transaction' %}active{% endif %}">
+                    <i class="nav-icon fas fa-exchange-alt"></i>
+                    <p>
+                        Transactions
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_transaction_list') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'transaction' and parent_route[3] == 'list' %}active{% endif %}">
+                            <i class="fa fa-list nav-icon"></i>
+                            <p>All transactions</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path('app_admin_transaction_create') }}" class="nav-link {% if parent_route[3] is defined and parent_route[2] == 'transaction' and parent_route[3] == 'create' %}active{% endif %}">
+                            <i class="fa fa-plus nav-icon"></i>
+                            <p>Create a new transaction</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

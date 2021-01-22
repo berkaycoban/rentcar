@@ -1,0 +1,111 @@
+{% extends 'admin/base.html.twig' %}
+
+{% if(app.request.get('id')) %}
+    {% set title = "Update a Transaction" %}
+{% else %}
+    {% set title = "Create a new Transaction" %}
+{% endif %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    <!-- date-range-picker -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/plugins/daterangepicker/daterangepicker.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>
+                            {{ title }}
+                        </h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ path('app_admin_dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_admin_transaction_list') }}">Transactions</a></li>
+                            <li class="breadcrumb-item active">{{ title }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+            <div class="col-md-12">
+                <!-- Horizontal Form -->
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ title }}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {{ form_start(form) }}
+                    <div class="card-body">
+                        <div class="col-md-12 row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="car_id">{{ form_label(form.car_id) }}</label>
+                                    {{ form_widget(form.car_id, {'attr': {'class': 'form-control', 'id': 'car_id'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="customer_id">{{ form_label(form.customer_id) }}</label>
+                                    {{ form_widget(form.customer_id, {'attr': {'class': 'form-control', 'id': 'customer_id'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="reservationDate">{{ form_label(form.reservationDate) }}</label>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                        </div>
+                                        {{ form_widget(form.reservationDate, {'attr': {'class': 'form-control', 'id': 'reservationDate'}}) }}
+                                    </div>
+                                    <!-- /.input group -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary float-right'}}) }}
+                    </div>
+                    <!-- /.card-footer -->
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.card -->
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- InputMask -->
+    <script src="{{ asset('assets/AdminLTE/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/AdminLTE/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
+    <!-- date-range-picker -->
+    <script src="{{ asset('assets/AdminLTE/plugins/daterangepicker/daterangepicker.js') }}"></script>
+
+    <script>
+        $(function () {
+            $('#transaction_reservationDate').daterangepicker({
+                timePicker: true,
+                timePickerIncrement: 30,
+                locale: {
+                    format: 'MM/DD/YYYY hh:mm A'
+                }
+            })
+        })
+    </script>
+{% endblock %}

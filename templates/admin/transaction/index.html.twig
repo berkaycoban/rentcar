@@ -55,9 +55,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% set role = app.user.roles[1] ?? app.user.roles[0] %}
-                                {% set company = app.user.company.id %}
-
                                 {% for item in transactions %}
                                     <tr>
                                         <td>{{ item.carId.brand }}</td>
@@ -69,9 +66,9 @@
                                         <td>{{ item.amount }} ₺</td>
                                         <td>{{ item.carId.ownerId.name }}</td>
                                         <td>{{ item.date|date('d F Y') }}</td>
-{#                                        <td>#}
-{#                                            <a href="{{ path('app_admin_car_create', {id: car.id}) }}" class="btn btn-sm btn-info">Update</a>#}
-{#                                        </td>#}
+                                        <td>
+                                            <a href="{{ path('app_admin_transaction_create', {id: item.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                        </td>
                                         <td>
                                             {% include 'admin/transaction/_delete_form.html.twig' %}
                                         </td>
