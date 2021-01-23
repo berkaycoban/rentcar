@@ -2,6 +2,11 @@
 {% set parent_route = route|split('_') %}
 <!-- Sidebar -->
 <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center align-items-center">
+        <div class="info">
+            <a href="{{ path('app_admin_user_create', {id: app.user.id}) }}"> Welcome, {{ app.user.fullName }}</a>
+        </div>
+    </div>
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

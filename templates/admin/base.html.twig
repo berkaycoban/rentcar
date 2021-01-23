@@ -21,9 +21,10 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="{{ path('app_admin_dashboard') }}" class="brand-link">
-            <span class="brand-text font-weight-light">Rent<b>CAR</b></span>
+        <a href="{{ path('app_admin_dashboard') }}" class="brand-link text-center">
+            <span class="brand-text">{{ app.user.company.name}} </span>
         </a>
+
         {% include 'admin/contents/sidebar.html.twig' %}
     </aside>
 

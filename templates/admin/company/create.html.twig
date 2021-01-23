@@ -6,13 +6,9 @@
     {% set title = "Create a Company" %}
 {% endif %}
 
-
 {% block title %}{{ title }}{% endblock %}
 
-{% block stylesheets %}{% endblock %}
-
 {% block body %}
-
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -39,7 +35,7 @@
                 <!-- Horizontal Form -->
                 <div class="card card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Create a new User</h3>
+                        <h3 class="card-title">{{ title }}</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
