@@ -30,12 +30,12 @@ class TransactionType extends AbstractType
             ->add('car_id', EntityType::class, [
                 'class' => Car::class,
                 'label' => 'Car',
-                'choices' => $this->carRepository->findAllAvailableCarsByCompany($options['company_id'])
+                'choices' => $this->carRepository->findBy(['owner_id' => $options['company_id'], 'available' => 1])
             ])
             ->add('customer_id', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Customer',
-                'choices' => $this->userRepository->findAllCustomers(),
+                'choices' => $this->userRepository->findBy(['company' => null]),
                 'choice_label' => function ($user) {
                     return $user->getFullName();
                 }

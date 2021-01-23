@@ -47,7 +47,7 @@ class CarController
             $cars = $repository->findAll();
         }else {
             $company_id = $user->getCompany()->getId();
-            $cars = $repository->findAllCarsByCompany($company_id);
+            $cars = $repository->findBy(['owner_id' => $company_id]);
         }
 
         $content = $this->twig->render('admin/car/index.html.twig', ['cars' => $cars]);
