@@ -47,15 +47,18 @@
                                     <th>Pickup KM</th>
                                     <th>Expected Date</th>
                                     <th>Expected KM</th>
-                                    <th>Amount</th>
-                                    <th>Company Name</th>
-                                    <th>Created at</th>
+                                    <th>₺</th>
+                                    <th>Company</th>
+                                    <th>Transaction Date</th>
+                                    <th>##</th>
                                     <th>##</th>
                                     <th>##</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% set company = app.user.company %}
                                 {% for item in transactions %}
+                                    {% if item.carId.ownerId == company %}
                                     <tr>
                                         <td>{{ item.carId.brand }}</td>
                                         <td>{{ item.carId.model }}</td>
@@ -67,12 +70,20 @@
                                         <td>{{ item.carId.ownerId.name }}</td>
                                         <td>{{ item.date|date('d F Y') }}</td>
                                         <td>
-                                            <a href="{{ path('app_admin_transaction_create', {id: item.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                            <a href="{{ path('app_admin_transaction_complete', {id: item.id}) }}" class="btn btn-sm btn-success {% if item.status != 1 %} disabled {% endif %}">
+                                                <i class="fas fa-check" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('app_admin_transaction_create', {id: item.id}) }}" class="btn btn-sm btn-info">
+                                                <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                         <td>
                                             {% include 'admin/transaction/_delete_form.html.twig' %}
                                         </td>
                                     </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>

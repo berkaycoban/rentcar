@@ -34,7 +34,8 @@ class TransactionFixtures extends Fixture implements DependentFixtureInterface
                 ->setReturnDate(new DateTime($return_date))
                 ->setReturnCarKm($expectedCarKM)
                 ->setAmount($amount)
-                ->setDate(new DateTime());
+                ->setDate(new DateTime())
+                ->setStatus(1);
 
             $car->setAvailable(false);
             $manager->persist($car);

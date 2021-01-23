@@ -41,8 +41,7 @@ class TransactionController
      */
     public function index(TransactionRepository $repository): Response
     {
-
-        $transactions = $repository->findAll();
+        $transactions = $repository->findBy([], ['status' => 'DESC', 'return_date' => 'DESC']);
         $content = $this->twig->render('admin/transaction/index.html.twig', ['transactions' => $transactions]);
 
         return new Response($content);
@@ -66,11 +65,10 @@ class TransactionController
         Security $security,
         TransactionService $service,
         $id = null
-    ): Response
-    {
+    ): Response {
         $transaction = new Transaction();
 
-        if(!is_null($id) && ((int)$id) > 0) {
+        if (!is_null($id) && ((int)$id) > 0) {
             $transaction = $repository->find($id) ?? $transaction;
         }
 
@@ -80,7 +78,7 @@ class TransactionController
         ]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $date = $form->get('reservationDate')->getData();
 
             $date = $service->parseDate($date);
@@ -95,6 +93,9 @@ class TransactionController
             $transaction->setPickupCarKm($transaction->getCarId()->getKm());
             $transaction->setAmount($service->calculateAmount($daily_price, $days));
             $transaction->setReturnCarKm($service->calculateExpectedCarKM($daily_km, $days));
+
+            $transaction->setStatus(1);
+            $transaction->getCarId()->setAvailable(0);
 
             if (!$transaction->getId()) {
                 $transaction->setDate(new DateTime());
@@ -129,11 +130,50 @@ class TransactionController
 
         if ($transaction) {
             $transaction->getCarId()->setAvailable(true);
+
+            $km = $transaction->getCarId()->getKm();
+            if($km > 0){
+                $new_km = $km - $transaction->getReturnCarKm();
+                $transaction->getCarId()->setKm($new_km);
+            }
+
             $em->remove($transaction);
             $em->flush();
 
             $this->flash->add('success', 'Deleted was successful.');
         } else {
+            $this->flash->add('danger', 'Transaction not found id for ' . $id);
+        }
+
+        return new RedirectResponse($this->router->generate('app_admin_transaction_list'));
+    }
+
+    /**
+     * @Route("/complete/{id}", name="complete", defaults={"id": null})
+     * @param EntityManagerInterface $em
+     * @param TransactionRepository $repository
+     * @param null $id
+     * @return Response
+     */
+    public function complete(EntityManagerInterface $em, TransactionRepository $repository, $id = null): Response
+    {
+        $transaction = $repository->find($id);
+
+        if ($transaction) {
+            $transaction->getCarId()->setAvailable(1);
+
+            $km = $transaction->getCarId()->getKm(); // first km
+            $last_km = $km + $transaction->getReturnCarKm();
+
+            $transaction->getCarId()->setKm($last_km);
+            $transaction->setStatus(0);
+            $transaction->setReturnDate(new DateTime());
+
+            $em->persist($transaction);
+            $em->flush();
+
+            $this->flash->add('success', 'Update was successful.');
+        }else {
             $this->flash->add('danger', 'Transaction not found id for ' . $id);
         }
 
