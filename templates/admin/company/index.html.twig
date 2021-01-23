@@ -61,7 +61,9 @@
 
                                     <td>{{ company.createdAt|date('d F Y h:m:s') }}</td>
                                     <td>
-                                        <a href="{{ path('app_admin_company_create', {id: company.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                        <a href="{{ path('app_admin_company_create', {id: company.id}) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                                        </a>
                                     </td>
                                     <td>
                                         {% include 'admin/company/_delete_form.html.twig' %}

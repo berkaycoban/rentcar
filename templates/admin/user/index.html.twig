@@ -64,7 +64,9 @@
                                             <td>{{ user.roles[0] }}</td>
                                             <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
                                             <td>
-                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                                                </a>
                                             </td>
                                             <td>
                                                 {% if app.user.id != user.id %}
@@ -79,7 +81,9 @@
                                             <td>{{ user.roles[0] }}</td>
                                             <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
                                             <td>
-                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">Update</a>
+                                                <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">
+                                                    <i class="fas fa-sync-alt" aria-hidden="true"></i>
+                                                </a>
                                             </td>
                                             <td>
                                                 {% if app.user.id != user.id %}
