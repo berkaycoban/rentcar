@@ -41,7 +41,7 @@ class TransactionController
      */
     public function index(TransactionRepository $repository): Response
     {
-        $transactions = $repository->findBy([], ['status' => 'DESC', 'return_date' => 'DESC']);
+        $transactions = $repository->findBy([], ['date' => 'DESC']);
         $content = $this->twig->render('admin/transaction/index.html.twig', ['transactions' => $transactions]);
 
         return new Response($content);

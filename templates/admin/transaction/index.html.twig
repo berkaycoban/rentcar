@@ -46,6 +46,8 @@
                         <table id="datatable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th>Transaction Date</th>
+                                    <th>Customer</th>
                                     <th>Brand</th>
                                     <th>Model</th>
                                     <th>Pickup Date</th>
@@ -53,8 +55,6 @@
                                     <th>Expected Date</th>
                                     <th>Expected KM</th>
                                     <th>₺</th>
-                                    <th>Company</th>
-                                    <th>Transaction Date</th>
                                     <th>##</th>
                                     <th>##</th>
                                     <th>##</th>
@@ -65,6 +65,8 @@
                                 {% for item in transactions %}
                                     {% if item.carId.ownerId == company %}
                                     <tr>
+                                        <td>{{ item.date|date('d F Y') }}</td>
+                                        <td>{{ item.customerId.fullName }}</td>
                                         <td>{{ item.carId.brand }}</td>
                                         <td>{{ item.carId.model }}</td>
                                         <td>{{ item.pickupDate|date('d F Y') }}</td>
@@ -72,8 +74,6 @@
                                         <td>{{ item.returnDate|date('d F Y') }}</td>
                                         <td>{{ item.returnCarKm }}</td>
                                         <td>{{ item.amount }} ₺</td>
-                                        <td>{{ item.carId.ownerId.name }}</td>
-                                        <td>{{ item.date|date('d F Y') }}</td>
                                         <td>
                                             <a href="{{ path('app_admin_transaction_complete', {id: item.id}) }}" class="btn btn-sm btn-success {% if item.status != 1 %} disabled {% endif %}">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
@@ -124,7 +124,7 @@
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
-                "ordering": true,
+                "ordering": false,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
