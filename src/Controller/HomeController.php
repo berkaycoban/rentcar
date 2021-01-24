@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Date;
 use Twig\Environment;
 
 class HomeController
@@ -80,7 +81,10 @@ class HomeController
                 $date = $form->get('date')->getData();
                 $date = $service->parseDate($date);
 
-                if($date[0] < new DateTime()){
+                $start = strtotime($date[0]);
+                $end = strtotime("now");
+
+                if($start < $end){
                     $this->flash->add('warning', 'Reservation date must be bigger than today.');
                 }else {
                     $transaction->setPickupDate(new DateTime($date[0]));
