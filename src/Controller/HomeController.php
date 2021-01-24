@@ -80,28 +80,32 @@ class HomeController
                 $date = $form->get('date')->getData();
                 $date = $service->parseDate($date);
 
-                $transaction->setPickupDate(new DateTime($date[0]));
-                $transaction->setReturnDate(new DateTime($date[1]));
+                if($date[0] < new DateTime()){
+                    $this->flash->add('warning', 'Reservation date must be bigger than today.');
+                }else {
+                    $transaction->setPickupDate(new DateTime($date[0]));
+                    $transaction->setReturnDate(new DateTime($date[1]));
 
-                $days = $service->dateDiff($date[0], $date[1]);
-                $daily_price = $car->getDailyPrice();
-                $daily_km = $car->getDailyMaxKm();
+                    $days = $service->dateDiff($date[0], $date[1]);
+                    $daily_price = $car->getDailyPrice();
+                    $daily_km = $car->getDailyMaxKm();
 
-                $transaction->setPickupCarKm($car->getKm());
-                $transaction->setAmount($service->calculateAmount($daily_price, $days));
-                $transaction->setReturnCarKm($service->calculateExpectedCarKM($daily_km, $days));
+                    $transaction->setPickupCarKm($car->getKm());
+                    $transaction->setAmount($service->calculateAmount($daily_price, $days));
+                    $transaction->setReturnCarKm($service->calculateExpectedCarKM($daily_km, $days));
 
-                $transaction->setCarId($car);
+                    $transaction->setCarId($car);
 
-                $transaction->setCustomerId($security->getUser());
-                $transaction->setStatus(1);
-                $car->setAvailable(0);
+                    $transaction->setCustomerId($security->getUser());
+                    $transaction->setStatus(1);
+                    $car->setAvailable(0);
 
-                $transaction->setDate(new DateTime());
-                $this->flash->add('success', 'Reservation was successful.');
+                    $transaction->setDate(new DateTime());
+                    $this->flash->add('success', 'Reservation was successful.');
 
-                $em->persist($transaction);
-                $em->flush();
+                    $em->persist($transaction);
+                    $em->flush();
+                }
 
                 return new RedirectResponse($this->router->generate('home'));
             }
