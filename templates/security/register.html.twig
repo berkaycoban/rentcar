@@ -1,0 +1,97 @@
+{% if(app.request.get('id')) %}
+    {% set title = "Update profile" %}
+    {% set msg = "" %}
+    {% set btn = "Update" %}
+{% else %}
+    {% set title = "Sign up!" %}
+    {% set msg = "Sign up to rent a car" %}
+    {% set btn = "Sign up" %}
+{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/plugins/fontawesome-free/css/all.min.css')}} ">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('assets/AdminLTE/dist/css/adminlte.min.css') }}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+            <a href="{{ path('app_admin_dashboard') }}" class="h1">Rent<b>CAR</b></a>
+        </div>
+        <div class="card-body">
+            <p class="login-box-msg">{{ msg }}</p>
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                {% if error is defined %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                <div class="input-group mb-3">
+                    {{ form_widget(form.fullName, {'attr': {'class': 'form-control', 'id': 'fullName', 'placeholder': 'Full Name', 'autofocus': 'true'}}) }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'id': 'email', 'placeholder': 'Email'}}) }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'id': 'password', 'placeholder': 'Password'}}) }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form_widget(form.gender, {'attr': {'class': 'form-control', 'id': 'gender'}}) }}
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {% if(app.request.get('id')) %}
+                            <a href="{{ path('app_logout') }}" class="btn btn-default">
+                                Log out
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="btn btn-default">
+                                Sign in
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary btn-block'}, 'label': btn}) }}
+                    </div>
+                </div>
+            {{ form_end(form) }}
+            <!-- /.form -->
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</div>
+<!-- /.login-box -->
+
+
+<!-- jQuery -->
+<script src="{{ asset('assets/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('assets/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('assets/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+</body>
+</html>
