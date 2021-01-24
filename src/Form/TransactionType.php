@@ -26,12 +26,22 @@ class TransactionType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('car_id', EntityType::class, [
+        // if user has have super_admin_role
+        if ($options['role'] == 'ROLE_SUPER_ADMIN'){
+            $builder->add('car_id', EntityType::class, [
+                'class' => Car::class,
+                'label' => 'Car',
+                'choices' => $this->carRepository->findBy(['available' => 1]) // get all cars
+            ]);
+        }else {
+            $builder->add('car_id', EntityType::class, [
                 'class' => Car::class,
                 'label' => 'Car',
                 'choices' => $this->carRepository->findBy(['owner_id' => $options['company_id'], 'available' => 1])
-            ])
+            ]);
+        }
+
+        $builder
             ->add('customer_id', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Customer',
@@ -45,7 +55,6 @@ class TransactionType extends AbstractType
                 'required' => true,
                 'label' => 'Pickup and Return time range:'
             ])
-
             ->add('save', SubmitType::class);
         ;
     }
@@ -54,9 +63,11 @@ class TransactionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Transaction::class,
-            'company_id' => 1
+            'company_id' => 1,
+            'role' => 'ROLE_ADMIN'
         ]);
 
         $resolver->setAllowedTypes('company_id', 'int');
+        $resolver->setAllowedTypes('role', 'string');
     }
 }

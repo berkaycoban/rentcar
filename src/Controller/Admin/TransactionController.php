@@ -73,8 +73,10 @@ class TransactionController
         }
 
         $company_id = $security->getUser()->getCompany()->getId();
+        $role = $security->getUser()->getRoles()[0];
         $form = $formFactory->create(TransactionType::class, $transaction, [
-            'company_id' => $company_id
+            'company_id' => $company_id,
+            'role' => $role
         ]);
         $form->handleRequest($request);
 
