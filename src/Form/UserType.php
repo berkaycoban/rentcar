@@ -7,6 +7,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -24,6 +25,13 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class)
             ->add('company', EntityType::class, [
                 'class'=>Company::class
+            ])
+            ->add('gender', ChoiceType::class, [
+                'choices'  => [
+                    'Female' => true,
+                    'Male' => false,
+                ],
+                'required' => true
             ])
             ->add('role', CheckboxType::class, ['mapped' => false, 'required' => false])
             ->add('save', SubmitType::class);

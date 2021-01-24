@@ -57,6 +57,11 @@ class User implements UserInterface
      */
     private $transactions;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $gender;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -204,6 +209,18 @@ class User implements UserInterface
                 $transaction->setCustomerId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?bool
+    {
+        return $this->gender;
+    }
+
+    public function setGender(bool $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

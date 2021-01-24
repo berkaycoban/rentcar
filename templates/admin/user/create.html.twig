@@ -70,12 +70,22 @@
                                     <label for="company" class="col-sm-2 col-form-label">{{ form_label(form.company) }}</label>
                                     {{ form_widget(form.company, {'attr': {'class': 'form-control', 'id': 'company'}}) }}
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-6">
                                 <div class="form-group">
+                                    <label for="gender" class="col-sm-2 col-form-label">{{ form_label(form.gender) }}</label>
+                                    {{ form_widget(form.gender, {'attr': {'class': 'form-control', 'id': 'gender'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div class="form-group mb-0">
                                     <div class="form-check">
                                         {{ form_widget(form.role, {'attr': {'class': 'form-check-input', 'id': 'role'}}) }}
-                                        <label for="role" class="form-check-label">{{ form_label(form.role, 'Super Admin') }}</label>
+                                        <label for="role" class="form-check-label">Super Admin</label>
                                     </div>
-                                </div
+                                </div>
                             </div>
                         </div>
                     </div>

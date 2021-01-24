@@ -51,6 +51,7 @@
                                     <th>Full name</th>
                                     <th>Username</th>
                                     <th>Role</th>
+                                    <th>Gender</th>
                                     <th>Created at</th>
                                     <th>##</th>
                                     <th>##</th>
@@ -67,6 +68,15 @@
                                             <td>{{ user.fullName }}</td>
                                             <td>{{ user.username }}</td>
                                             <td>{{ user.roles[0] }}</td>
+                                            <td>
+                                                {% if user.gender == 1 %}
+                                                    <i class="fas fa-female" aria-hidden="true"></i>
+                                                    - Female
+                                                {% else %}
+                                                    <i class="fas fa-male" aria-hidden="true"></i>
+                                                    - Male
+                                                {% endif %}
+                                            </td>
                                             <td>{{ user.createdAt|date('d F Y h:m:s') }}</td>
                                             <td>
                                                 <a href="{{ path('app_admin_user_create', {id: user.id}) }}" class="btn btn-sm btn-info">
