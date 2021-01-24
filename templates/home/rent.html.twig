@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% set route = app.request.attributes.get('_route') %}
+{% set parent_route = route|split('_') %}
+
+{% block title %}Rentcar Homepage!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+{% block body %}
+    <main class="bg-light">
+        <div class="container pt-5 pb-5">
+            <h3 class="fs-2 text pb-2">Reservation a Car</h3>
+
+            <div class="col">
+                <div class="card shadow-sm">
+                    {% set image = 'uploads/images/' ~ car.imgSrc %}
+                    <img src="{{ asset(image) }}" alt="{{ car.imgAlt }}" class="col-md-6"/>
+                    <div class="card-body">
+                        <p class="card-text">{{ car.year }} {{ car.brand }} {{ car.model }}
+                            <span class="text-muted">
+                                {{ car.class }}
+                            </span>
+                        </p>
+                        <ul class="list-group mb-2">
+                            <li class="list-group-item">
+                                <div class="col-md-12 row text-center">
+                                    <div class="col-md-auto">
+                                        <small class="text-muted">
+                                            <i class="fas fa-gas-pump"></i> {{ car.fuel }}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <small class="text-muted">
+                                            <i class="fas fa-cog"></i> {{ car.gear }}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-auto">
+                                        <small class="text-muted">
+                                            {{ car.dailyPrice }} ₺
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="col-md-12 row text-center">
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            {% if car.airConditioning == 1 %}
+                                                <i class="fas fa-cloud"></i>
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            {% if car.airbag == 1 %}
+                                                <i class="fas fa-fan"></i>
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-car"></i> {{ car.seats }}
+                                        </small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">
+                                            {% if car.luggageVolume %}
+                                                <i class="fas fa-luggage-cart"></i> {{ car.luggageVolume }}
+                                            {% endif %}
+                                        </small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <small class="text-muted">
+                                    Daily Max. KM {{ car.dailyMaxKm }}
+                                </small>
+                            </li>
+                            <li class="list-group-item">
+                                <small class="text-muted">
+                                    Min. {{ car.minDriverAge }} age
+                                </small>
+                            </li>
+                            <li class="list-group-item">
+                                <small class="text-muted">
+                                    Min. {{ car.minLicenseYear }} Years of Driver's License
+                                </small>
+                            </li>
+                        </ul>
+                        {{ form_start(form) }}
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            {{ form_widget(form.date, {'attr': {'id': 'date', 'class': 'col-md-8'}}) }}
+                            <div class="btn-group">
+                                {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary float-right'}}) }}
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+        $(function() {
+            $('#reservation_date').daterangepicker({
+                timePicker: true,
+                startDate: moment().startOf('hour'),
+                endDate: moment().startOf('hour').add(32, 'hour'),
+                locale: {
+                    format: 'MM/DD/YYYY HH:mm'
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
